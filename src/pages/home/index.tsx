@@ -11,7 +11,7 @@ function Home() {
           <Link to="/profile">프로필</Link>
         </div>
       </header>
-      <div className="post-list">post list</div>
+      <div className="post__list">post list</div>
       <footer>
         <div>menu 1</div>
         <div>menu 2</div>

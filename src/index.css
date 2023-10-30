@@ -40,7 +40,7 @@ footer {
   gap: 20px;
 }
 
-.post-list {
+.post__list {
   min-height: 90dvh;
   padding: 20px 40px;
   text-align: center;

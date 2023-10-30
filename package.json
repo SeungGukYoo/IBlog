@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --cache . --ext ts,tsx",
-    "format":"",
+    "format": "",
     "postinstall": "husky install"
   },
   "eslintConfig": {

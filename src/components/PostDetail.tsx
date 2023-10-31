@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function PostDetail() {
   return (
@@ -16,7 +17,9 @@ function PostDetail() {
 
         <div className="post__util-box">
           <div className="post__delete">delete</div>
-          <div className="post__edit">edit</div>
+          <div className="post__edit">
+            <Link to={'/posts/edit/:id'}>edit</Link>
+          </div>
         </div>
         <div className="post__text">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae cum cumque doloremque

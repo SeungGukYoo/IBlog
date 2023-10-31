@@ -1,7 +1,16 @@
+import Footer from 'components/Footer';
+import Header from 'components/Header';
+import PostDetail from 'components/PostDetail';
 import React from 'react';
 
-function PostDetail() {
-  return <h1>PostDetail</h1>;
+function PostPage() {
+  return (
+    <>
+      <Header />
+      <PostDetail />
+      <Footer />
+    </>
+  );
 }
 
-export default PostDetail;
+export default PostPage;

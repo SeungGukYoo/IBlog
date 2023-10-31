@@ -7,7 +7,7 @@ function PostPage() {
   return (
     <>
       <Header />
-      <PostDetail />;
+      <PostDetail />
       <Footer />
     </>
   );

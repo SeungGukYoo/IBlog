@@ -29,7 +29,7 @@ function Router({ isAuthenticated }: RouterProps) {
           </>
         ) : (
           <>
-            <Route path="*" element={<SignInPage />} />
+            <Route path="*" element={<Navigate replace to="/signin" />} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
           </>

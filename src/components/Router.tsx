@@ -20,7 +20,7 @@ function Router() {
         <Route path="/posts/edit/:id" element={<PostEdit />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/signin" element={<SignInPage />} />
-        <Route path="/profile" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>

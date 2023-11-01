@@ -2,7 +2,7 @@ import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import app from 'firebaseApp';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function SignUpForm() {
@@ -10,7 +10,7 @@ function SignUpForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const navigate = useNavigate();
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'email') {
@@ -35,7 +35,6 @@ function SignUpForm() {
     }
 
     if (name === 'password_confirm') {
-      console.log(value, password), value === password;
       setConfirmPassword(value);
       if (value.length < 8) {
         setError('비밀번호는 8자리 이상으로 입력해주세요.');
@@ -50,15 +49,15 @@ function SignUpForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      console.dir(e);
       const auth = getAuth(app);
 
       const info = await createUserWithEmailAndPassword(auth, email, password);
-      toast.success('환영합니다🎉', {
+      toast.success('회원가입이 완료되었습니다🎉', {
         position: 'top-right',
         autoClose: 1300,
         theme: 'light',
       });
+      navigate('/signin');
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/email-already-in-use') {

@@ -1,5 +1,9 @@
+import { FirebaseError } from 'firebase/app';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import app from 'firebaseApp';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function SignUpForm() {
   const [error, setError] = useState('');
@@ -42,8 +46,29 @@ function SignUpForm() {
       }
     }
   };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      console.dir(e);
+      const auth = getAuth(app);
+
+      const info = await createUserWithEmailAndPassword(auth, email, password);
+      toast.success('환영합니다🎉', {
+        position: 'top-right',
+        autoClose: 1300,
+        theme: 'light',
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/email-already-in-use') {
+          setError('이미 회원가입 된 사용자가 있습니다.');
+        }
+      } else console.error(error);
+    }
+  };
   return (
-    <form action="/post" method="POST" className="form from-lg">
+    <form onSubmit={onSubmit} action="/post" method="POST" className="form from-lg">
       <h1 className="form__title">회원가입</h1>
       <div className="form__block">
         <label htmlFor="email">아이디</label>

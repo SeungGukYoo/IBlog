@@ -6,11 +6,14 @@ import PostNew from 'pages/posts/new';
 import ProfilePage from 'pages/profile';
 import SignInPage from 'pages/signin';
 import SignUpPage from 'pages/signup';
-import React, { useState } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-function Router() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+interface RouterProps {
+  isAuthenticated: boolean;
+}
+
+function Router({ isAuthenticated }: RouterProps) {
   return (
     <>
       <Routes>

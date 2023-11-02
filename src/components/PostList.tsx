@@ -62,7 +62,11 @@ function PostList({ hasNavigation = true }: Props) {
       )}
 
       <div className="post__list">
-        {posts.length > 0 ? posts.map(post => <Post post={post} key={post.id} />) : <>helo</>}
+        {posts.length > 0 ? (
+          posts.map(post => <Post post={post} key={post.id} />)
+        ) : (
+          <div className="post__no-post">게시글이 없습니다.</div>
+        )}
       </div>
     </>
   );

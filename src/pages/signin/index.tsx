@@ -1,7 +1,14 @@
+import Header from 'components/Header';
+import SignInForm from 'components/SignInForm';
 import React from 'react';
 
 function SignInPage() {
-  return <div>SignInPage</div>;
+  return (
+    <>
+      <Header />
+      <SignInForm />
+    </>
+  );
 }
 
 export default SignInPage;

@@ -16,7 +16,6 @@ interface PropsType {
 }
 
 function Post({ post }: PropsType) {
-  console.log(post);
   return (
     <div key={post.id} className="post__box">
       <Link to={`/posts/${post.id}`}>
@@ -26,12 +25,14 @@ function Post({ post }: PropsType) {
           <div className="post__date">{post.createdAt}</div>
         </div>
         <div className="post__title">{post.title}</div>
-        <div className="post__text">{post.title}</div>
-        <div className="post__util-box">
-          <div className="post__delete">delete</div>
-          <div className="post__edit">edit</div>
-        </div>
+        <div className="post__text">{post.summary}</div>
       </Link>
+      <div className="post__util-box">
+        <div className="post__delete">delete</div>
+        <div className="post__edit">
+          <Link to={`/posts/edit/:${post.id}`}>edit</Link>
+        </div>
+      </div>
     </div>
   );
 }

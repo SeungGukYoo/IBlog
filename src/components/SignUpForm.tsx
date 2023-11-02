@@ -1,11 +1,12 @@
+import AuthContext from 'context/AuthContext';
 import { FirebaseError } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import app from 'firebaseApp';
-import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function SignUpForm() {
+  const { auth } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,8 +50,7 @@ function SignUpForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const auth = getAuth(app);
-
+      if (!auth) return;
       const info = await createUserWithEmailAndPassword(auth, email, password);
       toast.success('회원가입이 완료되었습니다🎉', {
         position: 'top-right',

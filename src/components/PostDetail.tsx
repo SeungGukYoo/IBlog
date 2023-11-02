@@ -1,39 +1,57 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from 'firebaseApp';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loader from './Loader';
+import { PostType } from './PostList';
 
 function PostDetail() {
+  const [init, setInit] = useState(false);
+  const [post, setPost] = useState<null | PostType>(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (id) {
+      const docRef = doc(db, 'posts', id);
+      const getData = async () => {
+        const docSnap = await getDoc(docRef);
+        setPost({ ...(docSnap.data() as PostType) });
+        setInit(true);
+      };
+      getData();
+    } else {
+      toast.error('잘못된 경로로 접근하였습니다 ❌', { autoClose: 1000, pauseOnHover: false });
+      navigate('/');
+    }
+  }, [id, navigate]);
+
   return (
-    <div className="post__detail">
-      <div className="post__box">
-        <div className="post__title">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis, consequatur.
-        </div>
+    <>
+      {init ? (
+        <div className="post__detail">
+          <div className="post__box">
+            <div className="post__title">{post?.title}</div>
 
-        <div className="post__profile-box">
-          <div className="post__profile" />
-          <div className="post__auth-name">hello</div>
-          <div className="post__date">2023.10.30 mon</div>
-        </div>
+            <div className="post__profile-box">
+              <div className="post__profile" />
+              <div className="post__auth-name">{post?.user}</div>
+              <div className="post__date">{post?.createdAt}</div>
+            </div>
 
-        <div className="post__util-box">
-          <div className="post__delete">delete</div>
-          <div className="post__edit">
-            <Link to={'/posts/edit/:id'}>edit</Link>
+            <div className="post__util-box">
+              <div className="post__delete">delete</div>
+              <div className="post__edit">
+                <Link to={`/posts/edit/:${post?.id}`}>edit</Link>
+              </div>
+            </div>
+            <div className="post__text post__text-pre-wrap">{post?.content}</div>
           </div>
         </div>
-        <div className="post__text">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae cum cumque doloremque
-          debitis iure hic placeat, atque sequi incidunt accusantium explicabo minima aut minus
-          mollitia autem vel qui quis laudantium dignissimos deleniti doloribus voluptates similique
-          soluta! Praesentium at impedit dignissimos. Dolore quam vero sed magni exercitationem nam
-          enim velit facere iusto debitis. Illum recusandae magni dolore itaque officiis
-          necessitatibus eius est? Atque, dolor omnis. Fugit vel, iste dolorem aliquam distinctio
-          quo placeat nihil itaque expedita, perspiciatis reprehenderit quos quaerat quia, iusto
-          esse nemo quas nisi corporis. Quis sunt, ratione neque aperiam voluptates vero illum esse
-          omnis error deleniti molestias deserunt!
-        </div>
-      </div>
-    </div>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 }
 

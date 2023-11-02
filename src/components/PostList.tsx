@@ -1,14 +1,13 @@
-import { constants } from 'buffer';
-import { collection, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'firebaseApp';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import Post from './Post';
 
 interface Props {
   hasNavigation?: boolean;
 }
-interface PostType {
+export interface PostType {
   content: string;
   createdAt: string;
   summary: string;

@@ -175,6 +175,10 @@ footer a:focus {
   border-radius: 20px;
 }
 
+.post__text-pre-wrap {
+  white-space: pre-wrap;
+}
+
 .profile__box {
   display: flex;
   gap: 18px;

@@ -1,22 +1,22 @@
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from 'firebaseApp';
-import React, { useEffect, useState } from 'react';
+import PostsContext from 'context/PostsContext';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from './Loader';
 import { PostType } from './PostList';
 
 function PostDetail() {
+  const { firebaseClient } = useContext(PostsContext);
   const [init, setInit] = useState(false);
   const [post, setPost] = useState<null | PostType>(null);
   const { id } = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (id) {
-      const docRef = doc(db, 'posts', id);
       const getData = async () => {
-        const docSnap = await getDoc(docRef);
-        setPost({ ...(docSnap.data() as PostType) });
+        const data = await firebaseClient?.getPosts(id);
+        setPost({ ...(data as PostType) });
         setInit(true);
       };
       getData();
@@ -24,7 +24,7 @@ function PostDetail() {
       toast.error('잘못된 경로로 접근하였습니다 ❌', { autoClose: 1000, pauseOnHover: false });
       navigate('/');
     }
-  }, [id, navigate]);
+  }, [firebaseClient, id, navigate]);
 
   return (
     <>
@@ -42,7 +42,7 @@ function PostDetail() {
             <div className="post__util-box">
               <div className="post__delete">delete</div>
               <div className="post__edit">
-                <Link to={`/posts/edit/:${post?.id}`}>edit</Link>
+                <Link to={`/posts/edit/${id}`}>edit</Link>
               </div>
             </div>
             <div className="post__text post__text-pre-wrap">{post?.content}</div>

@@ -2,7 +2,7 @@ import { Auth, User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from 'firebaseApp';
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
 
-interface ContextProps {
+export interface ContextProps {
   children: ReactNode;
 }
 

@@ -1,4 +1,4 @@
-import { PostType } from 'components/PostList';
+import { CategoryType, PostType } from 'components/PostList';
 import AuthContext from 'context/AuthContext';
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { db } from 'firebaseApp';
@@ -13,8 +13,11 @@ function useForm() {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
+  const [category, setCategory] = useState<CategoryType | string>('');
   const [post, setPost] = useState<null | PostType>(null);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     e.preventDefault();
 
     const { name, value } = e.target;
@@ -28,6 +31,9 @@ function useForm() {
     if (name === 'content') {
       setContent(value);
     }
+    if (name === 'category') {
+      setCategory(value);
+    }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,9 +42,10 @@ function useForm() {
       if (post && post.id) {
         const postRef = doc(db, 'posts', post?.id);
         await updateDoc(postRef, {
-          title: title,
-          summary: summary,
-          content: content,
+          title,
+          summary,
+          content,
+          category,
           updatedAt: new Date()?.toLocaleDateString('ko', {
             hour: '2-digit',
             minute: '2-digit',
@@ -56,6 +63,7 @@ function useForm() {
           title,
           summary,
           content,
+          category,
           uid: user?.uid,
           createdAt: new Date()?.toLocaleDateString('ko', {
             hour: '2-digit',
@@ -78,10 +86,10 @@ function useForm() {
 
   useEffect(() => {
     if (post) {
-      console.log(post);
       setTitle(post?.title);
       setSummary(post?.summary);
       setContent(post?.content);
+      setCategory(post?.category);
     }
   }, [post]);
 
@@ -89,6 +97,7 @@ function useForm() {
     title,
     summary,
     content,
+    category,
     onChange,
     setPost,
     onSubmit,

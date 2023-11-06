@@ -16,7 +16,7 @@ import Post from './Post';
 
 interface Props {
   hasNavigation?: boolean;
-  defaultTab?: 'all' | 'my';
+  defaultTab?: 'all' | 'my' | CategoryType;
 }
 export interface PostType {
   content: string;
@@ -25,9 +25,12 @@ export interface PostType {
   title: string;
   user: string;
   id: string;
+  category: CategoryType;
 }
 
-type TabType = 'all' | 'my';
+type TabType = 'all' | 'my' | CategoryType;
+export type CategoryType = 'Frotend' | 'Backend' | 'ios' | 'Andoroid';
+export const CATEGORYS: CategoryType[] = ['Frotend', 'Backend', 'ios', 'Andoroid'];
 function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
   const { firebaseClient } = useContext(PostsContext);
@@ -39,8 +42,10 @@ function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
     let postsQuery;
     if (activeTab === 'my') {
       postsQuery = query(postRef, where('uid', '==', user?.uid), orderBy('createdAt', 'asc'));
-    } else {
+    } else if (activeTab === 'all') {
       postsQuery = query(postRef, orderBy('createdAt', 'asc'));
+    } else {
+      postsQuery = query(postRef, where('category', '==', activeTab), orderBy('createdAt', 'asc'));
     }
     const datas = await getDocs(postsQuery);
     datas?.forEach((doc: DocumentSnapshot<DocumentData, DocumentData>) => {
@@ -70,6 +75,18 @@ function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
           >
             나의 글
           </div>
+          {CATEGORYS?.map(category => {
+            return (
+              <div
+                key={category}
+                role="presentation"
+                onClick={() => setActiveTab(category)}
+                className={activeTab === category ? 'post__navigation-active' : ''}
+              >
+                {category}
+              </div>
+            );
+          })}
         </div>
       )}
 

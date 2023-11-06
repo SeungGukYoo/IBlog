@@ -39,7 +39,11 @@ function useForm() {
           title: title,
           summary: summary,
           content: content,
-          updatedAt: new Date()?.toLocaleDateString(),
+          updatedAt: new Date()?.toLocaleDateString('ko', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          }),
         });
         toast.success('게시글이 성공적으로 수정되었습니다 👏', {
           autoClose: 1000,
@@ -53,7 +57,11 @@ function useForm() {
           summary,
           content,
           uid: user?.uid,
-          createdAt: new Date()?.toLocaleDateString(),
+          createdAt: new Date()?.toLocaleDateString('ko', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          }),
         });
 
         toast.success('게시글이 성공적으로 저장되었습니다 👏', {

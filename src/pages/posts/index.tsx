@@ -7,7 +7,7 @@ function PostsPage() {
   return (
     <>
       <Header />
-      <PostList hasNavigation={false} />
+      <PostList hasNavigation={false} defaultTab="all" />
       <Footer />
     </>
   );

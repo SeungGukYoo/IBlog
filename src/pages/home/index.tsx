@@ -8,7 +8,7 @@ function Home() {
     <div>
       <Header />
       <Carousel />
-      <PostList />
+      <PostList defaultTab="all" />
       <Footer />
     </div>
   );

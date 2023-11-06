@@ -53,6 +53,7 @@ function PostDetail() {
             </div>
 
             <div className="post__util-box">
+              {post && <div className="post__category">{post?.category}</div>}
               <div className="post__delete" onClick={handleDelete}>
                 delete
               </div>

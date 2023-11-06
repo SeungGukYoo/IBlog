@@ -2,6 +2,7 @@ import PostsContext from 'context/PostsContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Comments from './Comments';
 import Loader from './Loader';
 import { PostType } from './PostList';
 
@@ -41,32 +42,36 @@ function PostDetail() {
 
   return (
     <>
-      {init ? (
-        <div className="post__detail">
-          <div className="post__box">
-            <div className="post__title">{post?.title}</div>
+      <div className="post__detail">
+        {init ? (
+          <>
+            <div className="post__box">
+              <div className="post__title">{post?.title}</div>
 
-            <div className="post__profile-box">
-              <div className="post__profile" />
-              <div className="post__auth-name">{post?.user}</div>
-              <div className="post__date">{post?.createdAt}</div>
-            </div>
+              <div className="post__profile-box">
+                <div className="post__profile" />
+                <div className="post__auth-name">{post?.user}</div>
+                <div className="post__date">{post?.createdAt}</div>
+                <div className="post__delete">삭제</div>
+              </div>
 
-            <div className="post__util-box">
-              {post && <div className="post__category">{post?.category}</div>}
-              <div className="post__delete" onClick={handleDelete}>
-                delete
+              <div className="post__util-box">
+                {post?.category && <div className="post__category">{post?.category}</div>}
+                <div className="post__delete" onClick={handleDelete}>
+                  delete
+                </div>
+                <div className="post__edit">
+                  <Link to={`/posts/edit/${id}`}>edit</Link>
+                </div>
               </div>
-              <div className="post__edit">
-                <Link to={`/posts/edit/${id}`}>edit</Link>
-              </div>
+              <div className="post__text post__text-pre-wrap">{post?.content}</div>
             </div>
-            <div className="post__text post__text-pre-wrap">{post?.content}</div>
-          </div>
-        </div>
-      ) : (
-        <Loader />
-      )}
+            <Comments />
+          </>
+        ) : (
+          <Loader />
+        )}
+      </div>
     </>
   );
 }

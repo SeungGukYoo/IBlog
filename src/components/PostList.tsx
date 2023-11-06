@@ -1,7 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import PostsContext from 'context/PostsContext';
-import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
+import {
+  DocumentData,
+  DocumentSnapshot,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from 'firebase/firestore';
+import { db } from 'firebaseApp';
 import Post from './Post';
 
 interface Props {
@@ -23,13 +31,15 @@ function PostList({ hasNavigation = true }: Props) {
   const [posts, setPosts] = useState<PostType[]>([]);
 
   const getPosts = useCallback(async () => {
-    const datas = await firebaseClient?.getPosts();
     setPosts([]);
+    const postRef = collection(db, 'posts');
+    const postsQuery = query(postRef, orderBy('createdAt', 'asc'));
+    const datas = await getDocs(postsQuery);
     datas?.forEach((doc: DocumentSnapshot<DocumentData, DocumentData>) => {
       const dataObj = { ...doc.data(), id: doc.id };
       setPosts(prev => [...prev, dataObj as PostType]);
     });
-  }, [firebaseClient]);
+  }, []);
   useEffect(() => {
     getPosts();
   }, [getPosts]);

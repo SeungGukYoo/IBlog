@@ -1,6 +1,6 @@
 import PostsContext from 'context/PostsContext';
 import useForm from 'hooks/useForm';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import type { PostType } from './PostList';
 
@@ -12,8 +12,8 @@ function PostForm() {
   useEffect(() => {
     if (id) {
       const getData = async () => {
-        const data = await firebaseClient?.getPosts(id);
-        setPost({ ...(data as PostType) });
+        const docSnap = await firebaseClient?.getPost(id);
+        setPost({ ...(docSnap?.data() as PostType), id });
       };
       getData();
     }
@@ -41,7 +41,7 @@ function PostForm() {
         <textarea onChange={onChange} name="content" id="content" required value={content} />
       </div>
       <div className="form__block">
-        <input type="submit" value="제출" className="form__btn-submit" />
+        <input type="submit" value={id ? '수정' : '제출'} className="form__btn-submit" />
       </div>
     </form>
   );

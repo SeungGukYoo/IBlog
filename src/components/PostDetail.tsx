@@ -12,11 +12,24 @@ function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const handleDelete = async () => {
+    try {
+      if (confirm('삭제하시겠습니까?') && post) {
+        await firebaseClient?.deleteData(post.id);
+        toast.success('성공적으로 삭제하였습니다.', { autoClose: 1000, pauseOnHover: false });
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error('에러가 발생하였습니다.', { autoClose: 1000, pauseOnHover: false });
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       const getData = async () => {
-        const data = await firebaseClient?.getPosts(id);
-        setPost({ ...(data as PostType) });
+        const docSnap = await firebaseClient?.getPost(id);
+        setPost({ ...(docSnap?.data() as PostType), id });
         setInit(true);
       };
       getData();
@@ -40,7 +53,9 @@ function PostDetail() {
             </div>
 
             <div className="post__util-box">
-              <div className="post__delete">delete</div>
+              <div className="post__delete" onClick={handleDelete}>
+                delete
+              </div>
               <div className="post__edit">
                 <Link to={`/posts/edit/${id}`}>edit</Link>
               </div>

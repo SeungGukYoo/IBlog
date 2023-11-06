@@ -59,7 +59,11 @@ footer a:hover,
 footer a:focus {
   color: black;
 }
-
+.footer__theme-btn {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
 .post__navigation {
   display: flex;
   gap: 12px;
@@ -454,4 +458,45 @@ input:checked + .carousel__slide-container .nav label {
   border-radius: 50%;
   z-index: 100;
   animation: rotation 1s linear infinite;
+}
+
+/* dark mode */
+.white {
+  transition: all 0.25s linear;
+  background-color: white;
+}
+.dark {
+  transition: all 0.25s linear;
+  background-color: #1e2937;
+}
+.dark a,
+.dark a label,
+.dark .post__delete,
+.dark .profile__logout,
+.dark .form__title,
+.dark .post__title,
+.dark .post__auth-name,
+.dark .footer__theme-btn,
+.dark .post__navigation-active,
+.dark .profile__name {
+  color: white;
+}
+
+.dark a:hover,
+.dark a:focus,
+.dark .post__text,
+.dart .post__text--pre-wrap,
+.dark .profile__email,
+.dark .post__date,
+.dark .form__block {
+  color: lightgray;
+}
+
+.dark .from__error {
+  color: #ff6171;
+}
+
+.dark footer,
+.dark header {
+  background-color: #111827;
 }

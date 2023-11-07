@@ -1,12 +1,69 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import AuthContext from 'context/AuthContext';
+import PostsContext from 'context/PostsContext';
+import {
+  DocumentData,
+  DocumentSnapshot,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore';
+import { db } from 'firebaseApp';
+import Post from './Post';
 
 interface Props {
   hasNavigation?: boolean;
+  defaultTab?: 'all' | 'my' | CategoryType;
 }
-type TabType = 'all' | 'my';
-function PostList({ hasNavigation = true }: Props) {
-  const [activeTab, setActiveTab] = useState<TabType>('all');
+export interface CommentsType {
+  uid: string;
+  createdAt: string;
+  email: string;
+  comments: string;
+}
+export interface PostType {
+  content: string;
+  createdAt: string;
+  summary: string;
+  title: string;
+  user: string;
+  id: string;
+  category: CategoryType;
+  comments: CommentsType[];
+}
+
+type TabType = 'all' | 'my' | CategoryType;
+export type CategoryType = 'Frotend' | 'Backend' | 'ios' | 'Andoroid';
+export const CATEGORYS: CategoryType[] = ['Frotend', 'Backend', 'ios', 'Andoroid'];
+function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
+  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
+  const { firebaseClient } = useContext(PostsContext);
+  const { user } = useContext(AuthContext);
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const getPosts = useCallback(async () => {
+    setPosts([]);
+    const postRef = collection(db, 'posts');
+    let postsQuery;
+    if (activeTab === 'my') {
+      postsQuery = query(postRef, where('uid', '==', user?.uid), orderBy('createdAt', 'asc'));
+    } else if (activeTab === 'all') {
+      postsQuery = query(postRef, orderBy('createdAt', 'asc'));
+    } else {
+      postsQuery = query(postRef, where('category', '==', activeTab), orderBy('createdAt', 'asc'));
+    }
+    const datas = await getDocs(postsQuery);
+    datas?.forEach((doc: DocumentSnapshot<DocumentData, DocumentData>) => {
+      const dataObj = { ...doc.data(), id: doc.id };
+      setPosts(prev => [...prev, dataObj as PostType]);
+    });
+  }, [activeTab, user?.uid]);
+  useEffect(() => {
+    getPosts();
+  }, [getPosts]);
+
   return (
     <>
       {hasNavigation && (
@@ -25,40 +82,30 @@ function PostList({ hasNavigation = true }: Props) {
           >
             나의 글
           </div>
+          {CATEGORYS?.map(category => {
+            return (
+              <div
+                key={category}
+                role="presentation"
+                onClick={() => setActiveTab(category)}
+                className={activeTab === category ? 'post__navigation-active' : ''}
+              >
+                {category}
+              </div>
+            );
+          })}
         </div>
       )}
 
       <div className="post__list">
-        {[...Array(10)].map((_, idx) => {
-          return (
-            <div key={idx} className="post__box">
-              <Link to={`/posts/${idx}`}>
-                <div className="post__profile-box">
-                  <div className="post__profile" />
-                  <div className="post__auth-name">hello</div>
-                  <div className="post__date">2023.10.30 mon</div>
-                </div>
-                <div className="post__title">title {idx + 1}</div>
-                <div className="post__text">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae cum cumque
-                  doloremque debitis iure hic placeat, atque sequi incidunt accusantium explicabo
-                  minima aut minus mollitia autem vel qui quis laudantium dignissimos deleniti
-                  doloribus voluptates similique soluta! Praesentium at impedit dignissimos. Dolore
-                  quam vero sed magni exercitationem nam enim velit facere iusto debitis. Illum
-                  recusandae magni dolore itaque officiis necessitatibus eius est? Atque, dolor
-                  omnis. Fugit vel, iste dolorem aliquam distinctio quo placeat nihil itaque
-                  expedita, perspiciatis reprehenderit quos quaerat quia, iusto esse nemo quas nisi
-                  corporis. Quis sunt, ratione neque aperiam voluptates vero illum esse omnis error
-                  deleniti molestias deserunt!
-                </div>
-                <div className="post__util-box">
-                  <div className="post__delete">delete</div>
-                  <div className="post__edit">edit</div>
-                </div>
-              </Link>
-            </div>
-          );
-        })}
+        {posts && posts.length > 0 ? (
+          posts?.map(post => {
+            console.log(post);
+            return <Post post={post} key={post.id} getPosts={getPosts} />;
+          })
+        ) : (
+          <div className="post__no-post">게시글이 없습니다.</div>
+        )}
       </div>
     </>
   );

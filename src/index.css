@@ -59,7 +59,11 @@ footer a:hover,
 footer a:focus {
   color: black;
 }
-
+.footer__theme-btn {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
 .post__navigation {
   display: flex;
   gap: 12px;
@@ -78,7 +82,7 @@ footer a:focus {
 
 .post__list,
 .post__detail {
-  min-height: 90dvh;
+  min-height: 45dvh;
   padding: 20px 40px;
   text-align: center;
   max-width: 680px;
@@ -126,7 +130,14 @@ footer a:focus {
   flex-direction: row-reverse;
   font-size: 14px;
 }
-
+.post__category {
+  color: gray;
+  border: 1px solid lightgray;
+  background-color: #f2f2f2;
+  padding: 0px 4px;
+  border-radius: 10px;
+  font-size: 12px;
+}
 .post__delete {
   cursor: pointer;
   color: gray;
@@ -165,6 +176,18 @@ footer a:focus {
 
 .post__detail .post__text {
   padding: 20px 0px;
+}
+
+.post__no-post {
+  padding: 24px;
+  text-align: center;
+  color: gray;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
+}
+
+.post__text-pre-wrap {
+  white-space: pre-wrap;
 }
 
 .profile__box {
@@ -351,6 +374,14 @@ input:checked + .carousel__slide-container .nav label {
   width: 96%;
   max-width: 680px;
 }
+.form select {
+  border: 1px solid lightgray;
+  max-width: 680px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 0.3rem;
+}
+
 .form textarea {
   resize: none;
   min-height: 300px;
@@ -427,4 +458,142 @@ input:checked + .carousel__slide-container .nav label {
   border-radius: 50%;
   z-index: 100;
   animation: rotation 1s linear infinite;
+}
+
+.comments {
+  width: 100%;
+}
+.comments__form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.comments__form textarea {
+  box-sizing: border-box;
+  max-width: 680px;
+  width: 100%;
+  min-height: 100px;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  border: 1px solid lightgray;
+  display: block;
+}
+
+.comments__form .form__block {
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.comments__form .form__btn--submit {
+  width: 100px;
+  height: 36px;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  border: none;
+}
+.form__block-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.comments__form .form__btn--submit:hover,
+.comments__form .form__btn--submit:focus {
+  background-color: #1945a4;
+}
+
+.comments__list {
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+
+.comments__box {
+  padding: 12px 0px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.comments__profile-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.comments__author-email {
+  font-weight: 500;
+}
+.comments__date {
+  color: gray;
+}
+
+.comments__delete-btn {
+  color: gray;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.comments__delete-btn:hover,
+.comments__delete-btn:focus {
+  color: black;
+}
+
+.comments__text {
+  font-size: 14px;
+  padding-top: 4px;
+}
+
+/* dark mode */
+.white {
+  transition: all 0.25s linear;
+  background-color: white;
+  min-height: 100dvh;
+}
+.dark {
+  transition: all 0.25s linear;
+  background-color: #1e2937;
+  min-height: 100dvh;
+}
+.dark a,
+.dark a label,
+.dark .post__delete,
+.dark .profile__logout,
+.dark .form__title,
+.dark .post__title,
+.dark .post__auth-name,
+.dark .footer__theme-btn,
+.dark .post__navigation-active,
+.dark .profile__name,
+.dark .comments__author-email,
+.dark .comments__delete-btn,
+.dark .comments__text {
+  color: white;
+}
+.dark .comments__delete-btn:hover,
+.dark .comments__delete-btn:focus,
+.dark a:hover,
+.dark a:focus,
+.dark .post__text,
+.dart .post__text--pre-wrap,
+.dark .profile__email,
+.dark .post__date,
+.dark .form__block,
+.dark .comments__date {
+  color: lightgray;
+}
+
+.dark .from__error {
+  color: #ff6171;
+}
+
+.dark footer,
+.dark header {
+  background-color: #111827;
 }

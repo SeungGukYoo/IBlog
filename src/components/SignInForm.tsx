@@ -1,11 +1,13 @@
+import AuthContext from 'context/AuthContext';
 import { FirebaseError } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import app from 'firebaseApp';
-import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function SignInForm() {
+  const { auth } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,7 +39,7 @@ function SignInForm() {
     try {
       e.preventDefault();
 
-      const auth = getAuth(app);
+      if (!auth) return;
       const info = await signInWithEmailAndPassword(auth, email, password);
       toast.success(`${info.user.email}님 환영합니다🎉`, {
         autoClose: 1300,

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-const MOCK_COMMENT = [
-  { id: 1, email: 'test1@email.com', createdAt: '2023-07-13', content: '안녕하세요1' },
-  { id: 2, email: 'test2@email.com', createdAt: '2023-07-14', content: '안녕하세요2' },
-  { id: 3, email: 'test3@email.com', createdAt: '2023-07-15', content: '안녕하세요3' },
-  { id: 4, email: 'test4@email.com', createdAt: '2023-07-16', content: '안녕하세요4' },
-  { id: 5, email: 'test5@email.com', createdAt: '2023-07-17', content: '안녕하세요5' },
-  { id: 6, email: 'test6@email.com', createdAt: '2023-07-18', content: '안녕하세요6' },
-  { id: 7, email: 'test7email.com', createdAt: '2023-07-19', content: '안녕하세요7' },
-  { id: 8, email: 'test8@email.com', createdAt: '2023-07-12', content: '안녕하세요8' },
-  { id: 9, email: 'test9@email.com', createdAt: '2023-07-11', content: '안녕하세요9' },
-  { id: 10, email: 'test10@email.com', createdAt: '2023-07-10', content: '안녕하세요10' },
-];
-function Comments() {
+import AuthContext from 'context/AuthContext';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { db } from 'firebaseApp';
+import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
+import { CommentsType, PostType } from './PostList';
+
+interface CommentsProps {
+  post: PostType;
+  getData: (id: string) => Promise<void>;
+}
+function Comments({ post, getData }: CommentsProps) {
+  const { user } = useContext(AuthContext);
+
   const [comments, setComments] = useState('');
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -20,9 +20,59 @@ function Comments() {
       setComments(value);
     }
   };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (post && post.id) {
+        const postRef = doc(db, 'posts', post.id);
+        if (user?.uid) {
+          const commentObj = {
+            comments,
+            uid: user.uid,
+            email: user.email,
+            createdAt: new Date().toLocaleDateString('ko', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }),
+          };
+
+          await updateDoc(postRef, {
+            comments: arrayUnion(commentObj),
+            updatedAt: new Date().toLocaleDateString('ko', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }),
+          });
+        }
+        toast.success('성공적으로 댓글을 달았습니다 ✓');
+        getData(post.id);
+        setComments('');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onDelete = async (comment: CommentsType) => {
+    try {
+      if (confirm('댓글을 삭제하시겠습니까?') && post.id) {
+        const docRef = doc(db, 'posts', post.id);
+        await updateDoc(docRef, {
+          comments: arrayRemove(comment),
+        });
+        await getData(post.id);
+        toast.success('댓글을 삭제하였습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="comments">
-      <form action="post" className="comments__form">
+      <form onSubmit={onSubmit} action="post" className="comments__form">
         <div className="form__block">
           <label htmlFor="comment">댓글 입력</label>
           <textarea name="comments" id="comment" required value={comments} onChange={onChange} />
@@ -32,15 +82,19 @@ function Comments() {
         </div>
       </form>
       <div className="comments__list">
-        {MOCK_COMMENT.map(comment => {
+        {post.comments.map(comment => {
           return (
-            <div key={comment.id} className="comments__box">
+            <div key={comment.createdAt} className="comments__box">
               <div className="comments__profile-box">
                 <div className="comments__author-email">{comment.email}</div>
                 <div className="comments__date">{comment.createdAt}</div>
-                <div className="comments__delete-btn">삭제</div>
+                {user?.uid && (
+                  <div className="comments__delete-btn" onClick={() => onDelete(comment)}>
+                    삭제
+                  </div>
+                )}
               </div>
-              <div className="comments__text">{comment.content}</div>
+              <div className="comments__text">{comment.comments}</div>
             </div>
           );
         })}

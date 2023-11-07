@@ -1,13 +1,599 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 10px 40px;
+  min-height: 40px;
+}
+header .header__logo {
+  color: black;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+header a {
+  margin: 0 10px;
+  color: gray;
+}
+
+header a:hover,
+header a:focus {
+  color: black;
+}
+
+footer {
+  background-color: #f2f2f2;
+  min-height: 40px;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+footer a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: gray;
+}
+
+footer a:hover,
+footer a:focus {
+  color: black;
+}
+.footer__theme-btn {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+.post__navigation {
+  display: flex;
+  gap: 12px;
+  font-size: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+  color: gray;
+  cursor: pointer;
+  padding: 40px 20px 0px 20px;
+}
+
+.post__navigation-active {
+  color: black;
+  font-weight: bold;
+}
+
+.post__list,
+.post__detail {
+  min-height: 45dvh;
+  padding: 20px 40px;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: left;
+  line-height: 24px;
+}
+
+.post__box {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-top: 1px solid #f2f2f2;
+}
+
+.post__profile-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.post__profile {
+  width: 36px;
+  height: 36px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+}
+.post__date,
+.post__auth-name {
+  color: gray;
+}
+
+.post__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 14px 0px;
+}
+
+.post__text {
+  color: gray;
+}
+.post__util-box {
+  display: flex;
+  gap: 8px;
+  flex-direction: row-reverse;
+  font-size: 14px;
+}
+.post__category {
+  color: gray;
+  border: 1px solid lightgray;
+  background-color: #f2f2f2;
+  padding: 0px 4px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.post__delete {
+  cursor: pointer;
+  color: gray;
+}
+.post__delete:hover,
+.post__delete:focus {
+  color: black;
+}
+.post__edit a {
+  color: gray;
+}
+.post__edit:hover a,
+.post__edit:focus a {
+  color: black;
+}
+
+.post__detail .post__title {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.post__detail .post__util-box {
+  padding: 10px 0px;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+  flex-direction: row;
+}
+
+.post__date .post-profile-box {
+  padding: 10px 0px;
+}
+
+.post__detail .post__profile-box {
+  padding: 20px 0px;
+}
+
+.post__detail .post__text {
+  padding: 20px 0px;
+}
+
+.post__no-post {
+  padding: 24px;
+  text-align: center;
+  color: gray;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
+}
+
+.post__text-pre-wrap {
+  white-space: pre-wrap;
+}
+
+.profile__box {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 auto;
+  max-width: 680px;
+  text-align: left;
+  line-height: 24px;
+  justify-content: space-between;
+  padding: 20px;
+}
+.flex__box-lg {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.profile__image {
+  width: 72px;
+  height: 72px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+}
+.profile__name {
+  font-size: 16px;
+  padding: 4px;
+}
+
+.profile__email {
+  font-weight: 500;
+}
+
+.profile__logout {
+  color: gray;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.profile__logout:focus,
+.profile__logout:hover {
+  color: black;
+}
+
+.carousel {
+  margin: 0 auto;
+  max-width: 980px;
+  margin-top: 36px;
+}
+
+ul.carousel__slides {
+  display: block;
+  position: relative;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+
+.carousel__slides * {
+  user-select: none;
+}
+
+ul.carousel__slides input {
+  display: none;
+}
+
+.carousel__slide-container {
+  display: block;
+}
+
+.carousel__slide-img {
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.7s ease-in-out;
+}
+
+.carousel__slide-img img {
+  object-fit: cover;
+  width: auto;
+  min-width: 100%;
+  height: 100%;
+}
+
+.carousel__controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  font-size: 100px;
+  line-height: 400px;
+  color: #fff;
+}
+
+.carousel__controls label {
+  display: none;
+  position: absolute;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.carousel__slide-img:hover + .carousel__controls label {
+  opacity: 0.5;
+}
+
+.carousel__controls label:hover {
+  opacity: 1;
+}
+
+.carousel__controls .carousel__slide-prev {
+  width: 49%;
+  left: 0;
+  text-align: left;
+}
+.carousel__controls .carousel__slide-next {
+  width: 49%;
+  right: 0;
+  text-align: right;
+}
+.carousel__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 100;
+  text-align: center;
+}
+
+.carousel__dots .carousel__dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 10px;
+  opacity: 0.5;
+}
+
+input:checked + .carousel__slide-container .carousel__slide-img {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1s ease-in-out;
+}
+input:checked + .carousel__slide-container .carousel__controls label {
+  display: block;
+}
+input#img-1:checked ~ .carousel__dots label#img-dot-1,
+input#img-2:checked ~ .carousel__dots label#img-dot-2,
+input#img-3:checked ~ .carousel__dots label#img-dot-3 {
+  opacity: 1;
+}
+
+input:checked + .carousel__slide-container .nav label {
+  display: block;
+}
+
+.form {
+  max-width: 680px;
+  height: 79.5dvh;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.form input {
+  height: 20px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 0.3rem;
+  border: 1px solid lightgray;
+  width: 96%;
+  max-width: 680px;
+}
+.form select {
+  border: 1px solid lightgray;
+  max-width: 680px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 0.3rem;
+}
+
+.form textarea {
+  resize: none;
+  min-height: 300px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  border: 1px solid lightgray;
+  width: 96%;
+  max-width: 680px;
+}
+
+.form .form__block {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form__block .form__btn-submit {
+  width: 100%;
+  height: 48px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #2563eb;
+  color: #fff;
+  margin: 0 auto;
+}
+
+.form__btn-submit:hover,
+.form__btn-submit:focus {
+  background-color: #1945a4;
+}
+
+.form-lg {
+  min-height: 70px;
+  margin-top: 30px;
+}
+
+.form__title {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.form__link {
+  margin-left: 10px;
+  color: gray;
+}
+
+.form__link:hover,
+.form__link:focus {
+  color: black;
+}
+
+.form__error {
+  color: red;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 5px solid #2563eb;
+  border-radius: 50%;
+  z-index: 100;
+  animation: rotation 1s linear infinite;
+}
+
+.comments {
+  width: 100%;
+}
+.comments__form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.comments__form textarea {
+  box-sizing: border-box;
+  max-width: 680px;
+  width: 100%;
+  min-height: 100px;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  border: 1px solid lightgray;
+  display: block;
+}
+
+.comments__form .form__block {
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.comments__form .form__btn--submit {
+  width: 100px;
+  height: 36px;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  border: none;
+}
+.form__block-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.comments__form .form__btn--submit:hover,
+.comments__form .form__btn--submit:focus {
+  background-color: #1945a4;
+}
+
+.comments__list {
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+
+.comments__box {
+  padding: 12px 0px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.comments__profile-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.comments__author-email {
+  font-weight: 500;
+}
+.comments__date {
+  color: gray;
+}
+
+.comments__delete-btn {
+  color: gray;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.comments__delete-btn:hover,
+.comments__delete-btn:focus {
+  color: black;
+}
+
+.comments__text {
+  font-size: 14px;
+  padding-top: 4px;
+}
+
+/* dark mode */
+.white {
+  transition: all 0.25s linear;
+  background-color: white;
+  min-height: 100dvh;
+}
+.dark {
+  transition: all 0.25s linear;
+  background-color: #1e2937;
+  min-height: 100dvh;
+}
+.dark a,
+.dark a label,
+.dark .post__delete,
+.dark .profile__logout,
+.dark .form__title,
+.dark .post__title,
+.dark .post__auth-name,
+.dark .footer__theme-btn,
+.dark .post__navigation-active,
+.dark .profile__name,
+.dark .comments__author-email,
+.dark .comments__delete-btn,
+.dark .comments__text {
+  color: white;
+}
+.dark .comments__delete-btn:hover,
+.dark .comments__delete-btn:focus,
+.dark a:hover,
+.dark a:focus,
+.dark .post__text,
+.dart .post__text--pre-wrap,
+.dark .profile__email,
+.dark .post__date,
+.dark .form__block,
+.dark .comments__date {
+  color: lightgray;
+}
+
+.dark .from__error {
+  color: #ff6171;
+}
+
+.dark footer,
+.dark header {
+  background-color: #111827;
 }

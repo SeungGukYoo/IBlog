@@ -554,10 +554,12 @@ input:checked + .carousel__slide-container .nav label {
 .white {
   transition: all 0.25s linear;
   background-color: white;
+  min-height: 100dvh;
 }
 .dark {
   transition: all 0.25s linear;
   background-color: #1e2937;
+  min-height: 100dvh;
 }
 .dark a,
 .dark a label,

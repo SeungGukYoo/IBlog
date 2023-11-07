@@ -100,7 +100,6 @@ function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
       <div className="post__list">
         {posts && posts.length > 0 ? (
           posts?.map(post => {
-            console.log(post);
             return <Post post={post} key={post.id} getPosts={getPosts} />;
           })
         ) : (

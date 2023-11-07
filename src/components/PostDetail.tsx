@@ -1,5 +1,5 @@
 import PostsContext from 'context/PostsContext';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Comments from './Comments';

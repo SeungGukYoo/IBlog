@@ -1,7 +1,6 @@
 import AuthContext from 'context/AuthContext';
 import { signOut } from 'firebase/auth';
-
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 
 function Profile() {

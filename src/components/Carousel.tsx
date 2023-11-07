@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 const IMAGE_1_URL =
   'https://plus.unsplash.com/premium_photo-1698496965873-47fa718a6f26?auto=format&fit=crop&q=80&w=3203&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 const IMAGE_2_URL =

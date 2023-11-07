@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import AuthContext from 'context/AuthContext';
 import PostsContext from 'context/PostsContext';
@@ -99,7 +99,10 @@ function PostList({ hasNavigation = true, defaultTab = 'all' }: Props) {
 
       <div className="post__list">
         {posts && posts.length > 0 ? (
-          posts?.map(post => <Post post={post} key={post.id} getPosts={getPosts} />)
+          posts?.map(post => {
+            console.log(post);
+            return <Post post={post} key={post.id} getPosts={getPosts} />;
+          })
         ) : (
           <div className="post__no-post">게시글이 없습니다.</div>
         )}

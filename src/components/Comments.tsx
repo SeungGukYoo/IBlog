@@ -82,22 +82,23 @@ function Comments({ post, getData }: CommentsProps) {
         </div>
       </form>
       <div className="comments__list">
-        {post.comments.map(comment => {
-          return (
-            <div key={comment.createdAt} className="comments__box">
-              <div className="comments__profile-box">
-                <div className="comments__author-email">{comment.email}</div>
-                <div className="comments__date">{comment.createdAt}</div>
-                {user?.uid && (
-                  <div className="comments__delete-btn" onClick={() => onDelete(comment)}>
-                    삭제
-                  </div>
-                )}
+        {post.comments &&
+          post.comments.map(comment => {
+            return (
+              <div key={comment.createdAt} className="comments__box">
+                <div className="comments__profile-box">
+                  <div className="comments__author-email">{comment.email}</div>
+                  <div className="comments__date">{comment.createdAt}</div>
+                  {user?.uid && (
+                    <div className="comments__delete-btn" onClick={() => onDelete(comment)}>
+                      삭제
+                    </div>
+                  )}
+                </div>
+                <div className="comments__text">{comment.comments}</div>
               </div>
-              <div className="comments__text">{comment.comments}</div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

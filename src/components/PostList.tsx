@@ -18,6 +18,12 @@ interface Props {
   hasNavigation?: boolean;
   defaultTab?: 'all' | 'my' | CategoryType;
 }
+export interface CommentsType {
+  uid: string;
+  createdAt: string;
+  email: string;
+  comments: string;
+}
 export interface PostType {
   content: string;
   createdAt: string;
@@ -26,6 +32,7 @@ export interface PostType {
   user: string;
   id: string;
   category: CategoryType;
+  comments: CommentsType[];
 }
 
 type TabType = 'all' | 'my' | CategoryType;

@@ -1,5 +1,5 @@
 import PostsContext from 'context/PostsContext';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Comments from './Comments';
@@ -25,25 +25,27 @@ function PostDetail() {
       console.error(error);
     }
   };
-
+  const getData = useCallback(
+    async (id: string) => {
+      const docSnap = await firebaseClient?.getPost(id);
+      setPost({ ...(docSnap?.data() as PostType), id });
+      setInit(true);
+    },
+    [firebaseClient],
+  );
   useEffect(() => {
     if (id) {
-      const getData = async () => {
-        const docSnap = await firebaseClient?.getPost(id);
-        setPost({ ...(docSnap?.data() as PostType), id });
-        setInit(true);
-      };
-      getData();
+      getData(id);
     } else {
       toast.error('잘못된 경로로 접근하였습니다 ❌', { autoClose: 1000, pauseOnHover: false });
       navigate('/');
     }
-  }, [firebaseClient, id, navigate]);
+  }, [firebaseClient, getData, id, navigate]);
 
   return (
     <>
       <div className="post__detail">
-        {init ? (
+        {post ? (
           <>
             <div className="post__box">
               <div className="post__title">{post?.title}</div>
@@ -66,7 +68,7 @@ function PostDetail() {
               </div>
               <div className="post__text post__text-pre-wrap">{post?.content}</div>
             </div>
-            <Comments />
+            <Comments post={post} getData={getData} />
           </>
         ) : (
           <Loader />
